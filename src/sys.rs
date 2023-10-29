@@ -145,6 +145,14 @@ impl Pts {
                 std::os::fd::BorrowedFd::borrow_raw(pts_fd)
             };
             rustix::process::ioctl_tiocsctty(fd)?;
+            
+            // #[cfg(feature = "async")]
+            {
+                let mut opts = rustix::fs::fcntl_getfl(fd)?;
+                opts |= rustix::fs::OFlags::NONBLOCK;
+                rustix::fs::fcntl_setfl(fd, opts)?;
+            }
+            
             Ok(())
         }
     }
