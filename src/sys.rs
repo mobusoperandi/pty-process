@@ -140,13 +140,14 @@ impl Pts {
     pub fn session_leader(&self) -> impl FnMut() -> std::io::Result<()> {
         let pts_fd = self.0.as_raw_fd();
         move || {
-            rustix::process::setsid()?;
             let fd = unsafe {
                 std::os::fd::BorrowedFd::borrow_raw(pts_fd)
             };
+            rustix::process::setsid()?;
+
             rustix::process::ioctl_tiocsctty(fd)?;
             
-            // #[cfg(feature = "async")]
+            #[cfg(feature = "async")]
             {
                 let mut opts = rustix::fs::fcntl_getfl(fd)?;
                 opts |= rustix::fs::OFlags::NONBLOCK;
