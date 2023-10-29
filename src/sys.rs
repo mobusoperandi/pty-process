@@ -141,9 +141,10 @@ impl Pts {
         let pts_fd = self.0.as_raw_fd();
         move || {
             rustix::process::setsid()?;
-            rustix::process::ioctl_tiocsctty(unsafe {
+            let fd = unsafe {
                 std::os::fd::BorrowedFd::borrow_raw(pts_fd)
-            })?;
+            };
+            rustix::process::ioctl_tiocsctty(fd)?;
             Ok(())
         }
     }
