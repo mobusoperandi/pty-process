@@ -25,7 +25,8 @@ impl std::fmt::Display for Error {
 
 impl std::convert::From<std::io::Error> for Error {
     fn from(e: std::io::Error) -> Self {
-        Self::Io(e)
+        //Self::Io(e)
+        panic!("{:?}", e);
     }
 }
 

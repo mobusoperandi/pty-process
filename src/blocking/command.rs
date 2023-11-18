@@ -163,7 +163,7 @@ impl Command {
         }
         self.pre_exec_set = true;
 
-        Ok(self.inner.spawn()?)
+        Ok(dbg!(&mut self.inner).spawn()?)
     }
 
     /// See [`std::os::unix::process::CommandExt::uid`]
