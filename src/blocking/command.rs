@@ -135,7 +135,7 @@ impl Command {
         &mut self,
         pts: &crate::blocking::Pts,
     ) -> crate::Result<std::process::Child> {
-        let (stdin, stdout, stderr) = pts.0.setup_subprocess()?;
+        let (stdin, stdout, stderr) = pts.0.setup_subprocess().unwrap();
 
         if !self.stdin {
             self.inner.stdin(stdin);
