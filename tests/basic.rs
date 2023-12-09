@@ -29,11 +29,11 @@ fn test_cat_blocking() {
     let mut buf_reader = std::io::BufReader::new(&pty);
     let mut buf = [0u8; 4];
     buf_reader.read_exact(&mut buf).unwrap();
+    assert_eq!(&buf, [b'^'];
+    dbg!("read asserted");
 
     let status = child.wait().unwrap();
     dbg!("child exited");
-
-    dbg!("new assertions made");
 
     assert_eq!(status.code().unwrap(), 0);
 }
