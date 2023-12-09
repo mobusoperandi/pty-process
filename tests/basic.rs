@@ -17,7 +17,11 @@ fn test_cat_blocking() {
     assert_eq!(output.next().unwrap(), "foo\r\n");
     assert_eq!(output.next().unwrap(), "foo\r\n");
 
-    child.kill().unwrap();
+    pty.write_all(&[4u8]).unwrap();
+    dbg!("wrote ^D");
+    let status = child.wait().unwrap();
+    dbg!("child exited");
+    assert_eq!(status.code().unwrap(), 0);
 }
 
 #[cfg(feature = "async")]
