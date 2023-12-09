@@ -27,9 +27,12 @@ fn test_cat_blocking() {
     //let mut output = helpers::output(&pty);
     //assert_eq!(output.next().unwrap(), "^D\u{8}\u{8}");
     let mut buf_reader = std::io::BufReader::new(&pty);
-    let mut buf = [0u8; 1];
+    dbg!("created reader");
+    let mut buf = [0u8; 4];
+    dbg!("created buffer");
     buf_reader.read_exact(&mut buf).unwrap();
-    assert_eq!(buf, [b'^']);
+    dbg!("read");
+    assert_eq!(buf, [b'^', b'D', 8, 8]);
     dbg!("read asserted");
 
     let status = child.wait().unwrap();
