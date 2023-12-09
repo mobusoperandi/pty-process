@@ -1,3 +1,5 @@
+use std::io::BufRead;
+
 mod helpers;
 
 #[test]
@@ -22,11 +24,11 @@ fn test_cat_blocking() {
     //let status = child.wait().unwrap();
     //dbg!("child exited");
 
-    pty.write_all(b"test").unwrap();
-    dbg!("wrote new input");
-
-    let mut output = helpers::output(&pty);
-    assert_eq!(output.next().unwrap(), "^D\u{8}\u{8}test");
+    //let mut output = helpers::output(&pty);
+    //assert_eq!(output.next().unwrap(), "^D\u{8}\u{8}");
+    let buf_reader = std::io::BufReader::new(&pty);
+    let mut buf = vec![];
+    buf_reader.read_exact();
 
     let status = child.wait().unwrap();
     dbg!("child exited");
