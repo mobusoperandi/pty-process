@@ -22,11 +22,11 @@ fn test_cat_blocking() {
     //let status = child.wait().unwrap();
     //dbg!("child exited");
 
-    pty.write_all(b"test\n").unwrap();
+    pty.write_all(b"test").unwrap();
     dbg!("wrote new input");
 
     let mut output = helpers::output(&pty);
-    assert_eq!(output.next().unwrap(), "^D\u{8}\u{8}test\r\n");
+    assert_eq!(output.next().unwrap(), "^D\u{8}\u{8}test");
 
     let status = child.wait().unwrap();
     dbg!("child exited");
