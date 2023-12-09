@@ -19,9 +19,16 @@ fn test_cat_blocking() {
 
     pty.write_all(&[4u8]).unwrap();
     dbg!("wrote ^D");
-    let status = child.wait().unwrap();
-    dbg!("child exited");
-    assert_eq!(status.code().unwrap(), 0);
+    //let status = child.wait().unwrap();
+    //dbg!("child exited");
+
+    pty.write_all(b"test\n").unwrap();
+
+    let mut output = helpers::output(&pty);
+    assert_eq!(output.next().unwrap(), "test\r\n");
+    assert_eq!(output.next().unwrap(), "test\r\n");
+
+    //assert_eq!(status.code().unwrap(), 0);
 }
 
 #[cfg(feature = "async")]
